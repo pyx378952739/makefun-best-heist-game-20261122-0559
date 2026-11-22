@@ -1,3 +1,9 @@
+// The Velvet Vault — make.fun best-heist-game entrypoint (agent-authored header).
+// This entrypoint packages the game for the judge: it copies game/ (the playable
+// top-down museum-heist game "The Velvet Vault": plain static files a desktop browser
+// loads offline, no library and no network request) and screenshots/ into the output
+// directory, then writes dossier.json via the vendored make.fun library. It does not
+// serve the game; to play it locally, run `node serve.ts` and open http://localhost:8080.
 // A working best-game-01 entry (Node 22, standard library only): the game is this directory's
 // game/ folder, plain static files a desktop browser loads offline (game/index.html and its ES
 // modules, no library and no network request), and the program hands it in. It copies game/ and
@@ -19,6 +25,9 @@ import { buildDossier } from './vendor/makefun-game.ts';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+
+// Agent-authored: announce the build so a run's log shows what was packaged and where.
+console.log(`[the-velvet-vault] packaging game/ and screenshots/ into ${out}`);
 
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'game'), join(out, 'game'), { recursive: true });
